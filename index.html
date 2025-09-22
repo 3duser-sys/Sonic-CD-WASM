@@ -145,46 +145,10 @@
 	<div id="status" style="display: none;">Downloading...</div>
 	<progress id="progress" value="0" max="100" hidden="hidden"></progress>
 	<canvas id="canvas" onclick="window.focus();" oncontextmenu="event.preventDefault();"></canvas>
+
+
 	<textarea id="output" style="display: none;" rows="8"></textarea>
-	<script>
-const canvas = document.getElementById('canvas');
-
-// Toggle fullscreen
-function toggleFullscreen() {
-	if (!document.fullscreenElement) {
-		// Enter fullscreen
-		if (canvas.requestFullscreen) {
-			canvas.requestFullscreen();
-		} else if (canvas.webkitRequestFullscreen) { // Safari
-			canvas.webkitRequestFullscreen();
-		} else if (canvas.msRequestFullscreen) { // old IE/Edge
-			canvas.msRequestFullscreen();
-		}
-	} else {
-		// Exit fullscreen
-		if (document.exitFullscreen) {
-			document.exitFullscreen();
-		} else if (document.webkitExitFullscreen) {
-			document.webkitExitFullscreen();
-		} else if (document.msExitFullscreen) {
-			document.msExitFullscreen();
-		}
-	}
-}
-
-// Bind click to toggle
-canvas.addEventListener("click", toggleFullscreen);
-
-// Keep resizing canvas when fullscreen is active
-document.addEventListener("fullscreenchange", () => {
-	if (document.fullscreenElement) {
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight;
-	}
-});
-</script>
-
-
+	
 	<!-- Mobile Controls -->
 	<div id="controls">
 		<div id="dpad">
@@ -229,6 +193,19 @@ document.addEventListener("fullscreenchange", () => {
 		}
 		window.addEventListener('resize', resizeCanvas);
 		resizeCanvas();
+		// Handle fullscreen changes
+document.addEventListener("fullscreenchange", () => {
+	if (document.fullscreenElement) {
+		// Fullscreen → match screen resolution
+		canvas.width = screen.width;
+		canvas.height = screen.height;
+		canvas.style.width = "100%";
+		canvas.style.height = "100%";
+	} else {
+		// Exited fullscreen → go back to window size
+		resizeCanvas();
+	}
+});
 
 		var Module = {
 			preRun: [],
