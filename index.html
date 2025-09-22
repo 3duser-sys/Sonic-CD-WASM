@@ -193,6 +193,14 @@
 		}
 		window.addEventListener('resize', resizeCanvas);
 		resizeCanvas();
+
+		canvas.addEventListener("click", () => {
+    if (!document.fullscreenElement) {
+        canvas.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+});
 		// Handle fullscreen changes
 document.addEventListener("fullscreenchange", () => {
 	if (document.fullscreenElement) {
