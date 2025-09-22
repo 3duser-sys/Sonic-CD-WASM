@@ -1,4 +1,4 @@
-this is already streched out, but ifit can be stretched out like this, then jus stretch it to the full of the browser screen. <!doctype html>
+<!doctype html>
 <!--suppress HtmlFormInputWithoutLabel, JSDeprecatedSymbols -->
 <html lang="en-us">
 <head>
@@ -146,6 +146,44 @@ this is already streched out, but ifit can be stretched out like this, then jus 
 	<progress id="progress" value="0" max="100" hidden="hidden"></progress>
 	<canvas id="canvas" onclick="window.focus();" oncontextmenu="event.preventDefault();"></canvas>
 	<textarea id="output" style="display: none;" rows="8"></textarea>
+	<script>
+const canvas = document.getElementById('canvas');
+
+// Toggle fullscreen
+function toggleFullscreen() {
+	if (!document.fullscreenElement) {
+		// Enter fullscreen
+		if (canvas.requestFullscreen) {
+			canvas.requestFullscreen();
+		} else if (canvas.webkitRequestFullscreen) { // Safari
+			canvas.webkitRequestFullscreen();
+		} else if (canvas.msRequestFullscreen) { // old IE/Edge
+			canvas.msRequestFullscreen();
+		}
+	} else {
+		// Exit fullscreen
+		if (document.exitFullscreen) {
+			document.exitFullscreen();
+		} else if (document.webkitExitFullscreen) {
+			document.webkitExitFullscreen();
+		} else if (document.msExitFullscreen) {
+			document.msExitFullscreen();
+		}
+	}
+}
+
+// Bind click to toggle
+canvas.addEventListener("click", toggleFullscreen);
+
+// Keep resizing canvas when fullscreen is active
+document.addEventListener("fullscreenchange", () => {
+	if (document.fullscreenElement) {
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+	}
+});
+</script>
+
 
 	<!-- Mobile Controls -->
 	<div id="controls">
